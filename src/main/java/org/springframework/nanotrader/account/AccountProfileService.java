@@ -15,19 +15,17 @@
  */
 package org.springframework.nanotrader.account;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
+public interface AccountProfileService {
 
-@Repository
-public interface AccountProfileRepository extends
-		JpaSpecificationExecutor<AccountProfile>,
-		JpaRepository<AccountProfile, Long> {
+	void deleteAccountProfile(AccountProfile AccountProfile);
 
-	public AccountProfile findByUserId(String userId);
+	AccountProfile findAccountProfile(Long id);
 
-	public AccountProfile findByAuthToken(String authToken);
+	AccountProfile saveAccountProfile(AccountProfile AccountProfile);
 
-	public AccountProfile findByUserIdAndPasswd(String userId, String passwd);
+	AccountProfile findByUserid(String username);
 
+	AccountProfile findByUseridAndPasswd(String userId, String passwd);
+
+	AccountProfile findByAuthtoken(String authtoken);
 }

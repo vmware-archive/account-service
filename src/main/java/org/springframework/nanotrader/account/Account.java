@@ -28,6 +28,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 @Entity
 @Table(name = "Account")
 public class Account implements Serializable {
@@ -121,12 +124,9 @@ public class Account implements Serializable {
 		}
 	}
 
-	@Override
 	public String toString() {
-		return "Account [creationDate=" + creationDate + ", openBalance="
-				+ openBalance + ", logoutCount=" + logoutCount + ", balance="
-				+ balance + ", lastLogin=" + lastLogin + ", loginCount="
-				+ loginCount + ", id=" + id + "]";
+		return ReflectionToStringBuilder.toString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	public int hashCode() {

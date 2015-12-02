@@ -27,6 +27,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 @Entity
 @Table(name = "AccountProfile")
 public class AccountProfile implements Serializable {
@@ -39,12 +42,6 @@ public class AccountProfile implements Serializable {
 
 	public Long getId() {
 		return this.id;
-	}
-
-	public void setId(Long l) {
-		if (l != null) {
-			this.id = l;
-		}
 	}
 
 	@OneToMany(mappedBy = "accountProfile")
@@ -130,12 +127,9 @@ public class AccountProfile implements Serializable {
 		this.fullName = s;
 	}
 
-	@Override
 	public String toString() {
-		return "AccountProfile [id=" + id + ", address=" + address
-				+ ", passwd=" + passwd + ", userId=" + userId + ", email="
-				+ email + ", creditCard=" + creditCard + ", fullName="
-				+ fullName + "]";
+		return ReflectionToStringBuilder.toString(this,
+				ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
 	public int hashCode() {

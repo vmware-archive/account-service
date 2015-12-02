@@ -1,7 +1,7 @@
 <dataset>
-    <Account_Profile id="1" user_Id="able" passwd="fuhdfhsiu"/>
-    <Account_Profile id="2" user_Id="baker" passwd="nbvhvmgh"/>
-    <Account_Profile id="3" user_Id="charlie" passwd="ytyttu"/>
+    <Account_Profile id="1" user_Id="able" passwd="fuhdfhsiu" auth_token="aToken"/>
+    <Account_Profile id="2" user_Id="baker" passwd="nbvhvmgh" auth_token="bToken"/>
+    <Account_Profile id="3" user_Id="charlie" passwd="ytyttu" auth_token="cToken"/>
     <Account id="1" login_count="5" logout_count="5" open_balance="4567" balance="2345" account_profile_id="2"/>
     <Account id="2" login_count="2" logout_count="1" open_balance="453543" balance="456" account_profile_id="2"/>
     <Account id="3" login_count="9" logout_count="9" open_balance="987987" balance="76876" account_profile_id="1"/>

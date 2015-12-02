@@ -1,6 +1,5 @@
 package org.springframework.nanotrader.account;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -32,11 +31,6 @@ public class AccountControllerTest {
 	AccountController accountController;
 
 	@Test
-	public void testCountAllAccountProfiles() {
-		assertEquals(3L, accountController.countAllAccountProfiles());
-	}
-
-	@Test
 	public void testDeleteAccountProfile() {
 		AccountProfile a = new AccountProfile();
 		a.setUserId("deleteMe");
@@ -57,6 +51,14 @@ public class AccountControllerTest {
 	}
 
 	@Test
+	public void testFindByProfile() {
+		AccountProfile profile = accountController.findAccountProfile(new Long(
+				1));
+		assertNotNull(profile);
+		assertNotNull(accountController.findByProfile(profile));
+	}
+
+	@Test
 	public void testSaveAccountProfile() {
 		AccountProfile ap = new AccountProfile();
 		ap.setUserId("testing");
@@ -70,8 +72,16 @@ public class AccountControllerTest {
 	}
 
 	@Test
-	public void testCountAllAccounts() {
-		assertEquals(3L, accountController.countAllAccounts());
+	public void testFindByUseridAndPassword() {
+		assertNotNull(accountController.findByUseridAndPasswd("baker",
+				"nbvhvmgh"));
+		assertNull(accountController.findByUseridAndPasswd("baker", "foo"));
+	}
+
+	@Test
+	public void testFindByAuthToken() {
+		assertNotNull(accountController.findByAuthtoken("aToken"));
+		assertNull(accountController.findByUserid("foo"));
 	}
 
 	@Test

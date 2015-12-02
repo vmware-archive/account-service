@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.dialect.MySQL5Dialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +18,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 @Configuration
 @Profile("cloud")
+@EnableEurekaClient
 @EnableJpaRepositories("org.springframework.nanotrader.account")
 public class CloudConfig {
 

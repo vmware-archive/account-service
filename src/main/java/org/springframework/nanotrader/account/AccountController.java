@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/accounts")
-public class AccountController {
+public class AccountController implements AccountService, AccountProfileService {
 
 	@Autowired
 	AccountRepository accountRepository;
@@ -32,49 +32,61 @@ public class AccountController {
 	@Autowired
 	AccountProfileRepository accountProfileRepository;
 
-	@RequestMapping("/profiles/count")
-	public long countAllAccountProfiles() {
-		return accountProfileRepository.count();
-	}
-
+	@Override
 	@RequestMapping(value = "/profiles", method = RequestMethod.DELETE)
 	public void deleteAccountProfile(@RequestBody AccountProfile accountProfile) {
 		accountProfileRepository.delete(accountProfile);
 	}
 
+	@Override
 	@RequestMapping(value = "/profiles/{id}", method = RequestMethod.GET)
 	public AccountProfile findAccountProfile(@PathVariable Long id) {
 		return accountProfileRepository.findOne(id);
 	}
 
+	@Override
 	@RequestMapping(value = "/profiles", method = RequestMethod.POST)
 	public AccountProfile saveAccountProfile(
 			@RequestBody AccountProfile accountProfile) {
 		return accountProfileRepository.save(accountProfile);
 	}
 
+	@Override
 	@RequestMapping(value = "/profiles?userId={userId}", method = RequestMethod.GET)
 	public AccountProfile findByUserid(String userId) {
 		return accountProfileRepository.findByUserId(userId);
 	}
 
-	@RequestMapping("/count")
-	public long countAllAccounts() {
-		return accountRepository.count();
-	}
-
+	@Override
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public void deleteAccount(@RequestBody Account account) {
 		accountRepository.delete(account);
 	}
 
+	@Override
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Account findAccount(@PathVariable Long id) {
 		return accountRepository.findOne(id);
 	}
 
+	@Override
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public Account saveAccount(@RequestBody Account account) {
 		return accountRepository.save(account);
+	}
+
+	@Override
+	public AccountProfile findByUseridAndPasswd(String userId, String passwd) {
+		return accountProfileRepository.findByUserIdAndPasswd(userId, passwd);
+	}
+
+	@Override
+	public AccountProfile findByAuthtoken(String authToken) {
+		return accountProfileRepository.findByAuthToken(authToken);
+	}
+
+	@Override
+	public Account findByProfile(AccountProfile accountProfile) {
+		return accountRepository.findByAccountProfile(accountProfile);
 	}
 }
