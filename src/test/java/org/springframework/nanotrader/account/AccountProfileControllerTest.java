@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +83,12 @@ public class AccountProfileControllerTest {
 				.size());
 		assertEquals(0, accountProfileController.search(null, null, "foo")
 				.size());
+	}
+
+	@Test
+	public void testGetAccounts() {
+		List<Account> l = accountProfileController.getAccounts(new Long(1));
+		assertNotNull(l);
+		assertEquals(1, l.size());
 	}
 }

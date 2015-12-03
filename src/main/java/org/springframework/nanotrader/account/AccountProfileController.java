@@ -86,4 +86,9 @@ public class AccountProfileController {
 			@RequestBody AccountProfile accountProfile) {
 		return accountProfileRepository.save(accountProfile);
 	}
+
+	@RequestMapping(value = "/{id}/accounts", method = RequestMethod.GET)
+	public List<Account> getAccounts(@PathVariable Long id) {
+		return findAccountProfile(id).getAccounts();
+	}
 }

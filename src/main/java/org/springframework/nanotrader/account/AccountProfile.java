@@ -16,10 +16,11 @@
 package org.springframework.nanotrader.account;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,8 +50,8 @@ public class AccountProfile implements Serializable {
 	}
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "accountProfile")
-	private Set<Account> accounts;
+	@OneToMany(mappedBy = "accountProfile", fetch = FetchType.EAGER)
+	private List<Account> accounts;
 
 	private String address;
 
@@ -76,11 +77,11 @@ public class AccountProfile implements Serializable {
 		this.authToken = s;
 	}
 
-	public Set<Account> getAccounts() {
+	public List<Account> getAccounts() {
 		return accounts;
 	}
 
-	public void setAccounts(Set<Account> accounts) {
+	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
 
