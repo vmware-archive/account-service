@@ -30,59 +30,8 @@ public class AccountControllerTest {
 	@Autowired
 	AccountController accountController;
 
-	@Test
-	public void testDeleteAccountProfile() {
-		AccountProfile a = new AccountProfile();
-		a.setUserId("deleteMe");
-		a = accountController.saveAccountProfile(a);
-		assertNotNull(a);
-		Long id = a.getId();
-		assertNotNull(id);
-		assertNotNull(accountController.findAccountProfile(id));
-
-		accountController.deleteAccountProfile(a);
-		assertNull(accountController.findAccountProfile(id));
-	}
-
-	@Test
-	public void testFindAccountProfile() {
-		assertNotNull(accountController.findAccountProfile(new Long(1)));
-		assertNull(accountController.findAccountProfile(new Long(56665)));
-	}
-
-	@Test
-	public void testFindByProfile() {
-		AccountProfile profile = accountController.findAccountProfile(new Long(
-				1));
-		assertNotNull(profile);
-		assertNotNull(accountController.findByProfile(profile));
-	}
-
-	@Test
-	public void testSaveAccountProfile() {
-		AccountProfile ap = new AccountProfile();
-		ap.setUserId("testing");
-		assertNotNull(accountController.saveAccountProfile(ap));
-	}
-
-	@Test
-	public void testFindByUserid() {
-		assertNotNull(accountController.findByUserid("baker"));
-		assertNull(accountController.findByUserid("foo"));
-	}
-
-	@Test
-	public void testFindByUseridAndPassword() {
-		assertNotNull(accountController.findByUseridAndPasswd("baker",
-				"nbvhvmgh"));
-		assertNull(accountController.findByUseridAndPasswd("baker", "foo"));
-	}
-
-	@Test
-	public void testFindByAuthToken() {
-		assertNotNull(accountController.findByAuthtoken("aToken"));
-		assertNull(accountController.findByUserid("foo"));
-	}
+	@Autowired
+	AccountProfileController accountProfileController;
 
 	@Test
 	public void testFindAccount() {
@@ -93,9 +42,10 @@ public class AccountControllerTest {
 	@Test
 	public void testSaveAccount() {
 		Account a = new Account();
-		AccountProfile ap = accountController.findAccountProfile(new Long(3));
-		assertNotNull(ap);
-		a.setAccountProfile(ap);
+		AccountProfile profile = accountProfileController
+				.findAccountProfile(new Long(1));
+		assertNotNull(profile);
+		a.setAccountProfile(profile);
 		a = accountController.saveAccount(a);
 		assertNotNull(a);
 		Long id = a.getId();
@@ -106,9 +56,10 @@ public class AccountControllerTest {
 	@Test
 	public void testDeleteAccount() {
 		Account a = new Account();
-		AccountProfile ap = accountController.findAccountProfile(new Long(3));
-		assertNotNull(ap);
-		a.setAccountProfile(ap);
+		AccountProfile profile = accountProfileController
+				.findAccountProfile(new Long(1));
+		assertNotNull(profile);
+		a.setAccountProfile(profile);
 		a = accountController.saveAccount(a);
 		assertNotNull(a);
 		Long id = a.getId();

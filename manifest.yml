@@ -1,7 +1,10 @@
 ---
 applications:
-- name: db-account-service
+- name: account-service
   memory: 512M
   instances: 1
-  path: target/account-service-0.1.0.jar
-  services: [ assql ]
+  path: target/account-service-1.0.0.jar
+  services: [ account-db ]
+  env:
+    SPRING_PROFILES_ACTIVE: cloud
+    EUREKA_SERVER: http://standalone-eureka.cfapps.io/eureka/

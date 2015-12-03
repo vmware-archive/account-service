@@ -31,6 +31,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "Account")
 public class Account implements Serializable {
@@ -39,6 +41,7 @@ public class Account implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "accountProfileId")
+	@JsonBackReference
 	@NotNull
 	private AccountProfile accountProfile;
 

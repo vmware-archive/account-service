@@ -30,6 +30,10 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "AccountProfile")
 public class AccountProfile implements Serializable {
@@ -44,6 +48,7 @@ public class AccountProfile implements Serializable {
 		return this.id;
 	}
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "accountProfile")
 	private Set<Account> accounts;
 
@@ -87,10 +92,12 @@ public class AccountProfile implements Serializable {
 		this.address = s;
 	}
 
+	@JsonIgnore
 	public String getPasswd() {
 		return passwd;
 	}
 
+	@JsonProperty
 	public void setPasswd(String s) {
 		this.passwd = s;
 	}

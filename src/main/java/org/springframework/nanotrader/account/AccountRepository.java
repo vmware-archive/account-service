@@ -23,6 +23,4 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaSpecificationExecutor<Account>,
 		JpaRepository<Account, Long> {
 
-	public Account findByAccountProfile(AccountProfile ap);
-
 }
