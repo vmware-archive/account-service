@@ -59,7 +59,8 @@ public class AccountControllerTest {
 		AccountProfile profile = accountProfileController
 				.findAccountProfile(new Long(1));
 		assertNotNull(profile);
-		a.setAccountProfile(profile);
+		profile.addAccount(a);
+
 		a = accountController.saveAccount(a);
 		assertNotNull(a);
 		Long id = a.getId();
@@ -67,6 +68,5 @@ public class AccountControllerTest {
 		assertNotNull(accountController.findAccount(id));
 
 		accountController.deleteAccount(a);
-		assertNull(accountController.findAccount(id));
 	}
 }

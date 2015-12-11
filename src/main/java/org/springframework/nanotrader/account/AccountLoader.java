@@ -12,10 +12,7 @@ public class AccountLoader implements
 		ApplicationListener<ContextRefreshedEvent> {
 
 	@Autowired
-	private AccountRepository accountRepository;
-
-	@Autowired
-	private AccountProfileRepository accountProfileRepository;
+	private AccountProfileController accountProfileController;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -29,13 +26,14 @@ public class AccountLoader implements
 		profile.setUserId("test");
 		profile.setAuthToken("token");
 
-		profile = accountProfileRepository.save(profile);
-
 		Account account1 = new Account();
 		account1.setCreationdate(new Date());
 		account1.setOpenbalance(100000f);
+		account1.setLastLogin(new Date());
 		account1.setAccountProfile(profile);
 
-		account1 = accountRepository.save(account1);
+		profile.addAccount(account1);
+
+		profile = accountProfileController.saveAccountProfile(profile);
 	}
 }

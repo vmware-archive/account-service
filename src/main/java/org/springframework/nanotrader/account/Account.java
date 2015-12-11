@@ -32,6 +32,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "Account")
@@ -45,6 +46,7 @@ public class Account implements Serializable {
 	@NotNull
 	private AccountProfile accountProfile;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
 	private Date creationDate = new Date();
 
 	private float openBalance;
@@ -53,6 +55,7 @@ public class Account implements Serializable {
 
 	private float balance;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
 	private Date lastLogin;
 
 	private int loginCount;

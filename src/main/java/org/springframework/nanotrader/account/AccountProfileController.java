@@ -33,6 +33,9 @@ public class AccountProfileController {
 	@Autowired
 	AccountProfileRepository accountProfileRepository;
 
+	@Autowired
+	AccountRepository accountRepository;
+
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public void deleteAccountProfile(@RequestBody AccountProfile accountProfile) {
 		accountProfileRepository.delete(accountProfile);

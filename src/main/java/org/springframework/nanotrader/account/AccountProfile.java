@@ -16,8 +16,10 @@
 package org.springframework.nanotrader.account;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,9 +33,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "AccountProfile")
@@ -50,7 +50,7 @@ public class AccountProfile implements Serializable {
 	}
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "accountProfile", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "accountProfile", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Account> accounts;
 
 	private String address;
@@ -78,7 +78,18 @@ public class AccountProfile implements Serializable {
 	}
 
 	public List<Account> getAccounts() {
+		if (accounts == null) {
+			accounts = new ArrayList<Account>();
+		}
 		return accounts;
+	}
+
+	public void addAccount(Account a) {
+		if (a == null) {
+			return;
+		}
+		a.setAccountProfile(this);
+		getAccounts().add(a);
 	}
 
 	public void setAccounts(List<Account> accounts) {
@@ -93,12 +104,10 @@ public class AccountProfile implements Serializable {
 		this.address = s;
 	}
 
-	@JsonIgnore
 	public String getPasswd() {
 		return passwd;
 	}
 
-	@JsonProperty
 	public void setPasswd(String s) {
 		this.passwd = s;
 	}
