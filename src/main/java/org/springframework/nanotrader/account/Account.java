@@ -46,7 +46,7 @@ public class Account implements Serializable {
 	@NotNull
 	private AccountProfile accountProfile;
 
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date creationDate = new Date();
 
 	private float openBalance;
@@ -55,7 +55,7 @@ public class Account implements Serializable {
 
 	private float balance;
 
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date lastLogin;
 
 	private int loginCount;

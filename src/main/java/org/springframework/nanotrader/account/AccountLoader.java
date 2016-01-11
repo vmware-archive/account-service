@@ -29,6 +29,7 @@ public class AccountLoader implements
 		Account account1 = new Account();
 		account1.setCreationdate(new Date());
 		account1.setOpenbalance(100000f);
+		account1.setBalance(100000f);
 		account1.setLastLogin(new Date());
 		account1.setAccountProfile(profile);
 

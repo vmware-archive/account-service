@@ -33,7 +33,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public void deleteAccount(@RequestBody Account account) {
-		accountRepository.delete(account);
+		accountRepository.delete(account.getId());
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
