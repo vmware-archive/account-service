@@ -15,83 +15,89 @@
  */
 package org.springframework.nanotrader.account;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/profiles")
 public class AccountProfileController {
 
-	@Autowired
-	AccountProfileRepository accountProfileRepository;
+    @Autowired
+    AccountProfileRepository accountProfileRepository;
 
-	@Autowired
-	AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-	@RequestMapping(value = "/", method = RequestMethod.DELETE)
-	public void deleteAccountProfile(@RequestBody AccountProfile accountProfile) {
-		accountProfileRepository.delete(accountProfile);
-	}
+    @RequestMapping(value = "/", method = RequestMethod.DELETE)
+    public void deleteAccountProfile(@RequestBody AccountProfile accountProfile) {
+        accountProfileRepository.delete(accountProfile);
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public List<AccountProfile> search(
-			@RequestParam(value = "userId", required = false) String id,
-			@RequestParam(value = "passwd", required = false) String passwd,
-			@RequestParam(value = "authToken", required = false) String authToken) {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<AccountProfile> search(
+            @RequestParam(value = "userId", required = false) String id,
+            @RequestParam(value = "passwd", required = false) String passwd,
+            @RequestParam(value = "authToken", required = false) String authToken) {
 
-		if (id != null && passwd != null) {
-			List<AccountProfile> l = new ArrayList<AccountProfile>();
-			AccountProfile ap = accountProfileRepository.findByUserIdAndPasswd(
-					id, passwd);
-			if (ap != null) {
-				l.add(ap);
-			}
-			return l;
-		}
+        if (id != null && passwd != null) {
+            List<AccountProfile> l = new ArrayList<AccountProfile>();
+            AccountProfile ap = accountProfileRepository.findByUserIdAndPasswd(
+                    id, passwd);
+            if (ap != null) {
+                l.add(ap);
+            }
+            return l;
+        }
 
-		if (id != null) {
-			List<AccountProfile> l = new ArrayList<AccountProfile>();
-			AccountProfile ap = accountProfileRepository.findByUserId(id);
-			if (ap != null) {
-				l.add(ap);
-			}
-			return l;
-		}
+        if (id != null) {
+            List<AccountProfile> l = new ArrayList<AccountProfile>();
+            AccountProfile ap = accountProfileRepository.findByUserId(id);
+            if (ap != null) {
+                l.add(ap);
+            }
+            return l;
+        }
 
-		if (authToken != null) {
-			List<AccountProfile> l = new ArrayList<AccountProfile>();
-			AccountProfile ap = accountProfileRepository
-					.findByAuthToken(authToken);
-			if (ap != null) {
-				l.add(ap);
-			}
-			return l;
-		}
+        if (authToken != null) {
+            List<AccountProfile> l = new ArrayList<AccountProfile>();
+            AccountProfile ap = accountProfileRepository
+                    .findByAuthToken(authToken);
+            if (ap != null) {
+                l.add(ap);
+            }
+            return l;
+        }
 
-		return accountProfileRepository.findAll();
-	}
+        return accountProfileRepository.findAll();
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public AccountProfile findAccountProfile(@PathVariable Long id) {
-		return accountProfileRepository.findOne(id);
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public AccountProfile findAccountProfile(@PathVariable Long id) {
+        return accountProfileRepository.findOne(id);
+    }
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public AccountProfile saveAccountProfile(
-			@RequestBody AccountProfile accountProfile) {
-		return accountProfileRepository.save(accountProfile);
-	}
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public AccountProfile saveAccountProfile(
+            @RequestBody AccountProfile accountProfile) {
+        if (accountProfile == null) {
+            return null;
+        }
 
-	@RequestMapping(value = "/{id}/accounts", method = RequestMethod.GET)
-	public List<Account> getAccounts(@PathVariable Long id) {
-		return findAccountProfile(id).getAccounts();
-	}
+        //make sure any accounts are tied back to the profile.
+        if (accountProfile.getAccounts() != null) {
+            for (Account a : accountProfile.getAccounts()) {
+                a.setAccountProfile(accountProfile);
+            }
+        }
+
+        return accountProfileRepository.save(accountProfile);
+    }
+
+    @RequestMapping(value = "/{id}/accounts", method = RequestMethod.GET)
+    public List<Account> getAccounts(@PathVariable Long id) {
+        return findAccountProfile(id).getAccounts();
+    }
 }

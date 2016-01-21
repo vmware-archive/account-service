@@ -21,13 +21,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountProfileRepository extends
-		JpaSpecificationExecutor<AccountProfile>,
-		JpaRepository<AccountProfile, Long> {
+        JpaSpecificationExecutor<AccountProfile>,
+        JpaRepository<AccountProfile, Long> {
 
-	public AccountProfile findByUserId(String userId);
+    public AccountProfile findByUserId(String userId);
 
-	public AccountProfile findByAuthToken(String authToken);
+    public AccountProfile findByAuthToken(String authToken);
 
-	public AccountProfile findByUserIdAndPasswd(String userId, String passwd);
+    public AccountProfile findByUserIdAndPasswd(String userId, String passwd);
 
 }

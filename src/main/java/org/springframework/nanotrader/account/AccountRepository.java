@@ -17,10 +17,17 @@ package org.springframework.nanotrader.account;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaSpecificationExecutor<Account>,
-		JpaRepository<Account, Long> {
+        JpaRepository<Account, Long> {
+
+    @Query("select a from Account a where a.accountProfile.id = :accountProfileId")
+    List<Account> findByAccountProfile(@Param("accountProfileId") Long accountProfileId);
 
 }

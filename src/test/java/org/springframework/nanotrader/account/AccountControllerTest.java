@@ -1,8 +1,7 @@
 package org.springframework.nanotrader.account;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,59 +13,35 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-		DirtiesContextTestExecutionListener.class,
-		TransactionalTestExecutionListener.class,
-		DbUnitTestExecutionListener.class })
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class})
 @WebIntegrationTest(value = "server.port=9876")
 @DatabaseSetup("testData.xml")
 public class AccountControllerTest {
 
-	@Autowired
-	AccountController accountController;
+    @Autowired
+    AccountController accountController;
 
-	@Autowired
-	AccountProfileController accountProfileController;
+    @Test
+    public void testFindAccount() {
+        assertNotNull(accountController.findAccount(2L));
+        assertNull(accountController.findAccount(3453L));
+    }
 
-	@Test
-	public void testFindAccount() {
-		assertNotNull(accountController.findAccount(new Long(2)));
-		assertNull(accountController.findAccount(new Long(3453)));
-	}
-
-	@Test
-	public void testSaveAccount() {
-		Account a = new Account();
-		AccountProfile profile = accountProfileController
-				.findAccountProfile(new Long(1));
-		assertNotNull(profile);
-		a.setAccountProfile(profile);
-		a = accountController.saveAccount(a);
-		assertNotNull(a);
-		Long id = a.getId();
-		assertNotNull(id);
-		assertNotNull(accountController.findAccount(id));
-	}
-
-	@Test
-	public void testDeleteAccount() {
-		Account a = new Account();
-		AccountProfile profile = accountProfileController
-				.findAccountProfile(new Long(1));
-		assertNotNull(profile);
-		profile.addAccount(a);
-
-		a = accountController.saveAccount(a);
-		assertNotNull(a);
-		Long id = a.getId();
-		assertNotNull(id);
-		assertNotNull(accountController.findAccount(id));
-
-		accountController.deleteAccount(a);
-	}
+    @Test
+    public void testFindAccountByProfileId() {
+        List<Account> l = accountController.findByAccountProfileId(1L);
+        assertNotNull(l);
+        assertTrue(l.size() == 1);
+        assertEquals(new Long(1), l.get(0).getAccountProfile().getaccountProfileId());
+        assertNull(accountController.findAccount(3453L));
+    }
 }
