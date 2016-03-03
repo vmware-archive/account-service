@@ -24,10 +24,10 @@ public interface AccountProfileRepository extends
         JpaSpecificationExecutor<AccountProfile>,
         JpaRepository<AccountProfile, Long> {
 
-    public AccountProfile findByUserId(String userId);
+    AccountProfile findByUserId(String userId);
 
-    public AccountProfile findByAuthToken(String authToken);
+    AccountProfile findByAuthToken(String authToken);
 
-    public AccountProfile findByUserIdAndPasswd(String userId, String passwd);
+    AccountProfile findByUserIdAndPasswd(String userId, String passwd);
 
 }
