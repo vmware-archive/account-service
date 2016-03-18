@@ -39,7 +39,7 @@ public class AccountController {
 
     @RequestMapping(value = "/profile/{profileId}", method = RequestMethod.GET)
     public List<Account> findByAccountProfileId(@PathVariable Long profileId) {
-        return accountRepository.findByAccountProfile(profileId);
+        return accountRepository.findByAccountProfileAccountProfileId(profileId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
